@@ -73,6 +73,10 @@ IRepresentation*    MediaObject::GetRepresentation      ()
 {
     return this->rep;
 }
+uint64_t            MediaObject::GetBytesDownloaded  ()
+{
+    return this->bytesDownloaded;
+}
 void                MediaObject::OnDownloadStateChanged (DownloadState state)
 {
     EnterCriticalSection(&this->stateLock);
@@ -84,6 +88,7 @@ void                MediaObject::OnDownloadStateChanged (DownloadState state)
 }
 void                MediaObject::OnDownloadRateChanged  (uint64_t bytesDownloaded)
 {
+    this->bytesDownloaded = bytesDownloaded;
 }
 const std::vector<ITCPConnection *>&    MediaObject::GetTCPConnectionList   () const
 {

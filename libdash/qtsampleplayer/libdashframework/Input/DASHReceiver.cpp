@@ -1,4 +1,4 @@
-/*
+﻿/*
  * DASHReceiver.cpp
  *****************************************************************************
  * Copyright (C) 2012, bitmovin Softwareentwicklung OG, All Rights Reserved
@@ -237,15 +237,44 @@ void*                       DASHReceiver::DoBuffering               (void *recei
     dashReceiver->DownloadInitSegment(dashReceiver->GetRepresentation());
 
     MediaObject *media = dashReceiver->GetNextSegment();
+    
+#if 1  //by li
+    DWORD start_time = 0;
+    DWORD end_time = 0;
+    DWORD download_time = 0;
+    double chunk_bandwidth = 0;
+#endif
 
     while(media != NULL && dashReceiver->isBuffering)
     {
+#if 1
+        start_time = GetTickCount();
+#endif
         media->StartDownload();
 
+        media->WaitFinished();
+#if 1
+        end_time = GetTickCount();
+        download_time = end_time - start_time;
+        if (download_time == 0)
+        {
+            download_time = 100000;
+        }
+        chunk_bandwidth = double(media->GetBytesDownloaded()) / double(download_time) * 8;
+#if 0  //by li
+        FILE *fp;
+        fp = fopen("D://log_bandwidth.txt", "at+");
+        if (fp != NULL)
+        {
+            fprintf(fp, "%9.1lf(kbps) \t\t %9u(bytes) \t\t", chunk_bandwidth, media->GetBytesDownloaded());
+            fprintf(fp, "%6u(ms) \n", download_time);
+        }
+        fclose(fp);
+#endif
+#endif
+        //li: segment下载完成后再添加到buffer。
         if (!dashReceiver->buffer->PushBack(media))
             return NULL;
-
-        media->WaitFinished();
 
         dashReceiver->NotifySegmentDownloaded();
 

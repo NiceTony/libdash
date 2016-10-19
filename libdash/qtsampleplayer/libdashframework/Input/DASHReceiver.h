@@ -21,6 +21,8 @@
 #include "../MPD/IRepresentationStream.h"
 #include "../Portable/MultiThreading.h"
 
+#include "../helpers/Timing.h"
+
 namespace libdash
 {
     namespace framework
