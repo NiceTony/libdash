@@ -221,9 +221,32 @@ void    MultimediaManager::InitAudioPlayback                (uint32_t offset)
     this->audioStream->SetRepresentation(this->period, this->audioAdaptationSet, this->audioRepresentation);
     this->audioStream->SetPosition(offset);
 }
-void    MultimediaManager::OnSegmentDownloaded              ()
+void    MultimediaManager::OnSegmentDownloaded              (StreamType type, double current_bandwidth)
 {
     this->segmentsDownloaded++;
+
+    estimate_bandwidth.push_back(current_bandwidth);
+#if 1  //by li
+        FILE *fp;
+        fp = fopen("D://log_bandwidth.txt", "at+");
+        if (fp != NULL)
+        {
+            fprintf(fp, "%d \t %9.1lf(kbps) \n", type, current_bandwidth);
+        }
+        fclose(fp);
+#endif
+
+    switch (type)
+    {
+        case AUDIO:
+            this->audioLogic;
+            break;
+        case VIDEO:
+            this->videoLogic;
+            break;
+        default:
+            break;
+    }
 }
 void    MultimediaManager::OnSegmentBufferStateChanged    (StreamType type, uint32_t fillstateInPercent)
 {

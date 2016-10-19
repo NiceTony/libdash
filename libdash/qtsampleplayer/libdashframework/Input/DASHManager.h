@@ -47,7 +47,7 @@ namespace libdash
                     void        SetRepresentation       (dash::mpd::IPeriod *period, dash::mpd::IAdaptationSet *adaptationSet, dash::mpd::IRepresentation *representation);
                     void        EnqueueRepresentation   (dash::mpd::IPeriod *period, dash::mpd::IAdaptationSet *adaptationSet, dash::mpd::IRepresentation *representation);
 
-                    void        OnSegmentDownloaded     ();
+                    void        OnSegmentDownloaded     (double current_bandwidth);
                     void        OnDecodingFinished      ();
                     void        OnVideoFrameDecoded     (const uint8_t **data, sampleplayer::decoder::videoFrameProperties* props);
                     void        OnAudioSampleDecoded    (const uint8_t **data, sampleplayer::decoder::audioFrameProperties* props);

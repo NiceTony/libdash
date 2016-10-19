@@ -151,11 +151,12 @@ void        DASHManager::OnBufferStateChanged   (uint32_t fillstateInPercent)
 {
     this->multimediaStream->OnSegmentBufferStateChanged(fillstateInPercent);
 }
-void        DASHManager::OnSegmentDownloaded    ()
+void        DASHManager::OnSegmentDownloaded    (double current_bandwidth)
 {
     this->readSegmentCount++;
 
     // notify observers
+    this->multimediaStream->OnSegmentDownloaded(current_bandwidth);
 }
 void        DASHManager::OnDecodingFinished     ()
 {

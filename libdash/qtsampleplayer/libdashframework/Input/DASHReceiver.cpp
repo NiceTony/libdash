@@ -203,9 +203,9 @@ uint32_t                    DASHReceiver::CalculateSegmentOffset    ()
 
     return (startSegNum > firstSegNum) ? startSegNum : firstSegNum;
 }
-void                        DASHReceiver::NotifySegmentDownloaded   ()
+void                        DASHReceiver::NotifySegmentDownloaded   (double current_bandwidth)
 {
-    this->observer->OnSegmentDownloaded();
+    this->observer->OnSegmentDownloaded(current_bandwidth);
 }
 void                        DASHReceiver::DownloadInitSegment    (IRepresentation* rep)
 {
@@ -242,7 +242,7 @@ void*                       DASHReceiver::DoBuffering               (void *recei
     DWORD start_time = 0;
     DWORD end_time = 0;
     DWORD download_time = 0;
-    double chunk_bandwidth = 0;
+    double current_bandwidth = 0;
 #endif
 
     while(media != NULL && dashReceiver->isBuffering)
@@ -260,13 +260,13 @@ void*                       DASHReceiver::DoBuffering               (void *recei
         {
             download_time = 100000;
         }
-        chunk_bandwidth = double(media->GetBytesDownloaded()) / double(download_time) * 8;
+        current_bandwidth = double(media->GetBytesDownloaded()) / double(download_time) * 8;
 #if 0  //by li
         FILE *fp;
         fp = fopen("D://log_bandwidth.txt", "at+");
         if (fp != NULL)
         {
-            fprintf(fp, "%9.1lf(kbps) \t\t %9u(bytes) \t\t", chunk_bandwidth, media->GetBytesDownloaded());
+            fprintf(fp, "%9.1lf(kbps) \t\t %9u(bytes) \t\t", current_bandwidth, media->GetBytesDownloaded());
             fprintf(fp, "%6u(ms) \n", download_time);
         }
         fclose(fp);
@@ -276,7 +276,7 @@ void*                       DASHReceiver::DoBuffering               (void *recei
         if (!dashReceiver->buffer->PushBack(media))
             return NULL;
 
-        dashReceiver->NotifySegmentDownloaded();
+        dashReceiver->NotifySegmentDownloaded(current_bandwidth);
 
         media = dashReceiver->GetNextSegment();
     }

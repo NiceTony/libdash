@@ -30,7 +30,7 @@ namespace sampleplayer
             public:
                 virtual ~IStreamObserver () {}
 
-                virtual void OnSegmentDownloaded    ()  = 0;
+                virtual void OnSegmentDownloaded            (StreamType type, double current_bandwidth)  = 0;
                 virtual void OnSegmentBufferStateChanged    (StreamType type, uint32_t fillstateInPercent) = 0;
                 virtual void OnVideoBufferStateChanged      (uint32_t fillstateInPercent)                  = 0;
                 virtual void OnAudioBufferStateChanged      (uint32_t fillstateInPercent)                  = 0;

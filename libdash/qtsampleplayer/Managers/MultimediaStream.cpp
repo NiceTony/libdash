@@ -1,4 +1,4 @@
-/*
+﻿/*
  * MultimediaStream.cpp
  *****************************************************************************
  * Copyright (C) 2013, bitmovin Softwareentwicklung OG, All Rights Reserved
@@ -145,3 +145,11 @@ void        MultimediaStream::OnBufferStateChanged          (BufferType type, ui
             break;
     }
 }
+
+void        MultimediaStream::OnSegmentDownloaded    (double current_bandwidth)
+{
+    for (size_t i = 0; i < observers.size(); i++)
+        this->observers.at(i)->OnSegmentDownloaded(this->type, current_bandwidth);
+}
+
+

@@ -23,7 +23,7 @@ namespace libdash
                 public:
                     virtual ~IDASHReceiverObserver () {}
 
-                    virtual void OnSegmentDownloaded      () = 0;
+                    virtual void OnSegmentDownloaded      (double current_bandwidth) = 0;
             };
         }
     }

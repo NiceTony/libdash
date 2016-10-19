@@ -51,7 +51,7 @@ namespace libdash
 
                 private:
                     uint32_t        CalculateSegmentOffset  ();
-                    void            NotifySegmentDownloaded ();
+                    void            NotifySegmentDownloaded (double current_bandwidth);
                     void            DownloadInitSegment     (dash::mpd::IRepresentation* rep);
                     bool            InitSegmentExists       (dash::mpd::IRepresentation* rep);
 

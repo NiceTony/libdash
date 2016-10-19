@@ -49,7 +49,7 @@ namespace sampleplayer
                 void SetFrameRate               (double frameRate);
 
                 /* IStreamObserver */
-                void OnSegmentDownloaded        ();
+                void OnSegmentDownloaded        (StreamType type, double current_bandwidth);
                 void OnSegmentBufferStateChanged(StreamType type, uint32_t fillstateInPercent);
                 void OnVideoBufferStateChanged  (uint32_t fillstateInPercent);
                 void OnAudioBufferStateChanged  (uint32_t fillstateInPercent);
@@ -76,6 +76,7 @@ namespace sampleplayer
                 uint64_t                                                    segmentsDownloaded;
                 CRITICAL_SECTION                                            monitorMutex;
                 double                                                      frameRate;
+                std::vector<double>                                         estimate_bandwidth;
 
                 THREAD_HANDLE                                               videoRendererHandle;
                 THREAD_HANDLE                                               audioRendererHandle;

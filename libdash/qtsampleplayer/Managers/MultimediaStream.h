@@ -59,6 +59,7 @@ namespace sampleplayer
 
                 void        OnSegmentBufferStateChanged (uint32_t fillstateInPercent);
                 void        OnBufferStateChanged   (libdash::framework::buffer::BufferType type, uint32_t fillstateInPercent);
+                void        OnSegmentDownloaded(double current_bandwidth);
 
             private:
                 std::vector<IStreamObserver *>                      observers;

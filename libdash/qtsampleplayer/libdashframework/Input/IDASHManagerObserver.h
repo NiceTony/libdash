@@ -30,6 +30,7 @@ namespace libdash
                     virtual void AddSamples     (buffer::AudioChunk *samples)   = 0;
                     //virtual void AddSubtitle    ()  = 0;
                     virtual void OnSegmentBufferStateChanged   (uint32_t fillstateInPercent) = 0;
+                    virtual void OnSegmentDownloaded    (double current_bandwidth) = 0;
             };
         }
     }
