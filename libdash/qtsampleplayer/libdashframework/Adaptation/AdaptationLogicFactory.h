@@ -25,7 +25,7 @@ namespace libdash
             class AdaptationLogicFactory
             {
                 public:
-                    static IAdaptationLogic* Create(libdash::framework::adaptation::LogicType logic, 
+                    static IAdaptationLogic* Create(sampleplayer::managers::StreamType type, libdash::framework::adaptation::LogicType logic, 
                                                     dash::mpd::IMPD *mpd, dash::mpd::IPeriod *period, dash::mpd::IAdaptationSet *adaptationSet);
             };
         }

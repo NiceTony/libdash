@@ -24,7 +24,7 @@ namespace libdash
             class ManualAdaptation : public AbstractAdaptationLogic
             {
                 public:
-                    ManualAdaptation            (dash::mpd::IMPD *mpd, dash::mpd::IPeriod *period, dash::mpd::IAdaptationSet *adaptationSet);
+                    ManualAdaptation            (sampleplayer::managers::StreamType type, dash::mpd::IMPD *mpd, dash::mpd::IPeriod *period, dash::mpd::IAdaptationSet *adaptationSet);
                     virtual ~ManualAdaptation   ();
 
                     virtual LogicType               GetType             ();

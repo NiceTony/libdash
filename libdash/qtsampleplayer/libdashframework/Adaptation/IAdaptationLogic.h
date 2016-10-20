@@ -34,11 +34,14 @@ namespace libdash
 
                     virtual uint32_t                    GetPosition         ()                                              = 0;
                     virtual void                        SetPosition         (uint32_t segmentNumber)                        = 0;
+                    virtual dash::mpd::IAdaptationSet*  GetAdaptationSet    ()                                              =0;
                     virtual dash::mpd::IRepresentation* GetRepresentation   ()                                              = 0;
                     virtual void                        SetRepresentation   (dash::mpd::IPeriod *period,
                                                                              dash::mpd::IAdaptationSet *adaptationSet,
                                                                              dash::mpd::IRepresentation *representation)    = 0;
                     virtual LogicType                   GetType             ()                                              = 0;
+                    virtual double                      EstimateBandwidth   (std::vector<double> &bandwidthVector)          = 0;
+                    virtual void                        DoLogic             ()                                              = 0;
             };
         }
     }

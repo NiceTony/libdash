@@ -16,8 +16,8 @@ using namespace libdash::framework::adaptation;
 using namespace libdash::framework::input;
 using namespace libdash::framework::mpd;
 
-ManualAdaptation::ManualAdaptation          (IMPD *mpd, IPeriod *period, IAdaptationSet *adaptationSet) :
-                  AbstractAdaptationLogic   (mpd, period, adaptationSet)
+ManualAdaptation::ManualAdaptation          (sampleplayer::managers::StreamType type, IMPD *mpd, IPeriod *period, IAdaptationSet *adaptationSet) :
+                  AbstractAdaptationLogic   (type, mpd, period, adaptationSet)
 {
 }
 ManualAdaptation::~ManualAdaptation         ()
