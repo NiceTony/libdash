@@ -74,9 +74,9 @@ void                AbstractAdaptationLogic::DoLogic             ()
 {
     this->adaptationSet     = this->AdaptationSets.at(0);
     this->Representations   = this->adaptationSet->GetRepresentation();
-    this->representation    = this->Representations.at(1);
-    
-#if 0  //by li
+    this->representation    = this->Representations.at(Representations.size());
+
+#if 1  //by li
         FILE *fp;
         fp = fopen("D://logic.txt", "at+");
         if (fp != NULL)

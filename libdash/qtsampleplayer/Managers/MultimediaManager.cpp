@@ -205,7 +205,7 @@ void    MultimediaManager::NotifyAudioBufferObservers       (uint32_t fillstateI
 }
 void    MultimediaManager::InitVideoRendering               (uint32_t offset)
 {
-    this->videoLogic = AdaptationLogicFactory::Create(libdash::framework::adaptation::Manual, this->mpd, this->period, this->videoAdaptationSet);
+    this->videoLogic = AdaptationLogicFactory::Create(sampleplayer::managers::VIDEO, libdash::framework::adaptation::Manual, this->mpd, this->period, this->videoAdaptationSet);
 
     this->videoStream = new MultimediaStream(sampleplayer::managers::VIDEO, this->mpd, SEGMENTBUFFER_SIZE, 2, 0);
     this->videoStream->AttachStreamObserver(this);
@@ -214,7 +214,7 @@ void    MultimediaManager::InitVideoRendering               (uint32_t offset)
 }
 void    MultimediaManager::InitAudioPlayback                (uint32_t offset)
 {
-    this->audioLogic = AdaptationLogicFactory::Create(libdash::framework::adaptation::Manual, this->mpd, this->period, this->audioAdaptationSet);
+    this->audioLogic = AdaptationLogicFactory::Create(sampleplayer::managers::AUDIO, libdash::framework::adaptation::Manual, this->mpd, this->period, this->audioAdaptationSet);
 
     this->audioStream = new MultimediaStream(sampleplayer::managers::AUDIO, this->mpd, SEGMENTBUFFER_SIZE, 0, 10);
     this->audioStream->AttachStreamObserver(this);
@@ -226,6 +226,23 @@ void    MultimediaManager::OnSegmentDownloaded              (StreamType type, do
     this->segmentsDownloaded++;
 
     estimate_bandwidth.push_back(current_bandwidth);
+
+    switch (type)
+    {
+        case AUDIO:
+            this->audioLogic->EstimateBandwidth(estimate_bandwidth);
+            this->audioLogic->DoLogic();
+            this->SetAudioQuality(this->period, this->audioLogic->GetAdaptationSet(), this->audioLogic->GetRepresentation());
+            break;
+        case VIDEO:
+            this->videoLogic->EstimateBandwidth(estimate_bandwidth);
+            this->videoLogic->DoLogic();
+            this->SetVideoQuality(this->period, this->videoLogic->GetAdaptationSet(), this->videoLogic->GetRepresentation());
+            break;
+        default:
+            break;
+    }
+    
 #if 1  //by li
         FILE *fp;
         fp = fopen("D://log_bandwidth.txt", "at+");
@@ -236,17 +253,6 @@ void    MultimediaManager::OnSegmentDownloaded              (StreamType type, do
         fclose(fp);
 #endif
 
-    switch (type)
-    {
-        case AUDIO:
-            this->audioLogic;
-            break;
-        case VIDEO:
-            this->videoLogic;
-            break;
-        default:
-            break;
-    }
 }
 void    MultimediaManager::OnSegmentBufferStateChanged    (StreamType type, uint32_t fillstateInPercent)
 {
